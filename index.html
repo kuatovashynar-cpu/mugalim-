@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Алгебра әдістемесі · Мұғалім болып көр</title>
+<style>
+:root{color-scheme:dark;--bd:#1d3b34;--bd2:#27504a;--ch:#f4f1e8;--ye:#ffd84d;--pk:#ff8fa3;--bl:#7cc7ff;--gr:#7be0a0;--mut:#b9cfc8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bd);background-image:radial-gradient(circle at 20% 10%,#2a5249 0,transparent 45%),radial-gradient(circle at 80% 90%,#234a42 0,transparent 40%);color:var(--ch);font:17px/1.6 system-ui,sans-serif}
+h1,h2,h3{font-family:"Chalkboard SE","Segoe Print","Bradley Hand",Georgia,cursive;line-height:1.25;margin:0 0 .5em;font-weight:700}
+h1{font-size:clamp(2rem,7vw,3.4rem);color:var(--ye)}
+h2{font-size:1.7rem;color:var(--ye)}
+h3{font-size:1.2rem;color:var(--bl)}
+nav{position:sticky;top:0;background:#12261fee;display:flex;gap:4px;overflow-x:auto;padding:6px 10px;z-index:5}
+nav a{color:var(--ch);text-decoration:none;padding:6px 12px;border-radius:6px;white-space:nowrap}
+nav a:hover{background:var(--ye);color:#000}
+main{max-width:860px;margin:0 auto;padding:0 16px}
+section{padding:30px 0}
+.card{border:2px dashed var(--mut);border-radius:14px;padding:16px;margin:14px 0;background:#ffffff08}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+button{font:inherit;cursor:pointer;border:2px solid var(--ch);background:transparent;color:var(--ch);border-radius:10px;padding:8px 14px;text-align:left}
+button:hover{background:#ffffff18}
+button.p{background:var(--ye);color:#000;border-color:var(--ye);font-weight:700;text-align:center}
+button.on{background:var(--bl);color:#000;border-color:var(--bl)}
+button.ok{background:#1f6b45;border-color:var(--gr)}
+button.bad{background:#7a2c3c;border-color:var(--pk)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ye);outline-offset:2px}
+button:disabled{opacity:.9;cursor:default}
+.opts{display:grid;gap:8px;margin:10px 0}
+.q{font-size:1.1rem}
+.fb{min-height:1.6em;color:var(--ye);font-weight:600}
+input,select,textarea{font:inherit;width:100%;background:#0f221c;color:var(--ch);border:2px solid var(--mut);border-radius:10px;padding:8px 10px;margin:4px 0 10px}
+textarea{min-height:70px;resize:vertical}
+label{font-weight:600;color:var(--bl)}
+.xp{height:14px;background:#0f221c;border-radius:7px;overflow:hidden;border:1px solid var(--mut)}
+.xp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--bl),var(--ye));transition:width .6s}
+.rank{font-size:1.2rem}
+.ord{display:flex;gap:8px;align-items:center;border:2px solid var(--mut);border-radius:10px;padding:8px 10px;margin:6px 0;transition:transform .3s,border-color .3s}
+.ord span{flex:1}
+.ord button{padding:4px 12px;text-align:center}
+pre{white-space:pre-wrap;background:#0f221c;border:2px solid var(--mut);border-radius:10px;padding:12px;font:inherit}
+.chk{list-style:none;padding:0}
+.chk li::before{content:"○ ";color:var(--pk)}
+.chk li.y::before{content:"✓ ";color:var(--gr)}
+.tags span{display:inline-block;background:#ffffff14;border-radius:20px;padding:2px 12px;margin:2px 4px 2px 0;font-size:.95rem}
+footer{text-align:center;padding:24px;color:var(--mut)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:no-preference){.pop{animation:pop .5s}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav><a href="#top">Бастау</a><a href="#jol">Жол картасы</a><a href="#qate">Қателікті тап</a><a href="#kes">Кейстер</a><a href="#kez">Сабақ кезеңдері</a><a href="#max">Мақсат</a><a href="#jos">Жоспар</a></nav>
+<main>
+
+<section id="top">
+<h1>Алгебра мұғалімі: тәжірибе жолы</h1>
+<p>7–9 сыныптарда алгебраны оқыту әдістемесіне арналған интерактив. Тапсырмаларды орындап, ұпай жинаңыз және соңында өз мини-сабақ жоспарыңызды жасаңыз.</p>
+<div class="card">
+<p class="rank">Деңгейіңіз: <b id="rk">Стажёр</b> · Ұпай: <b id="pt">0</b></p>
+<div class="xp"><i id="xb"></i></div>
+</div>
+</section>
+
+<section id="jol">
+<h2>1. 7–9 сыныптар жол картасы</h2>
+<p>Сыныпты таңдаңыз.</p>
+<div class="row" id="gt" style="display:flex;gap:8px">
+<button onclick="grade(7)">7 сынып</button><button onclick="grade(8)">8 сынып</button><button onclick="grade(9)">9 сынып</button>
+</div>
+<div class="card" id="gd"></div>
+<p style="color:var(--mut);font-size:.95rem">Тақырыптар тізімін қолданыстағы оқу бағдарламасымен салыстырып тексеріңіз.</p>
+</section>
+
+<section id="qate">
+<h2>2. Қателікті тап</h2>
+<p>Оқушының қате шешімін қарап, қатенің себебін анықтаңыз. Әр дұрыс жауап 10 ұпай береді.</p>
+<div class="card" id="q1"></div>
+</section>
+
+<section id="kes">
+<h2>3. Кейс-симулятор</h2>
+<p>Сабақта жағдай туындады. Мұғалім ретінде не істейсіз? Ең жақсы шешім 20 ұпай береді.</p>
+<div class="card" id="q2"></div>
+</section>
+
+<section id="kez">
+<h2>4. Сабақ кезеңдерін ретке келтір</h2>
+<p>Жаңа тақырыпты ашу сабағының кезеңдерін ↑ ↓ батырмаларымен дұрыс ретпен қойыңыз.</p>
+<div class="card"><div id="ol"></div><button class="p" id="oc">Тексеру</button><p class="fb" id="of"></p></div>
+</section>
+
+<section id="max">
+<h2>5. Мақсат пен критерий</h2>
+<p>Қайсысы сапалы жазылған? Әр дұрыс жауап 10 ұпай береді.</p>
+<div class="card" id="q3"></div>
+</section>
+
+<section id="jos">
+<h2>6. Өз мини-сабағыңды жаса</h2>
+<p>Өрістерді толтырыңыз, жоспар автоматты түрде жиналады. Барлық шарт орындалса, 40 ұпай аласыз.</p>
+<div class="card">
+<label for="pg">Сынып</label><select id="pg"><option>7</option><option>8</option><option>9</option></select>
+<label for="pt1">Тақырып</label><input id="pt1" placeholder="Мысалы: Квадрат теңдеулер">
+<label for="pm">Мақсат (өлшенетін болсын)</label><textarea id="pm" placeholder="Сабақ соңында оқушы…"></textarea>
+<label for="pv">Мотивация (өмірмен байланыс)</label><textarea id="pv"></textarea>
+<label for="ta">A деңгейі (базалық)</label><input id="ta">
+<label for="tb">B деңгейі (орта)</label><input id="tb">
+<label for="tc">C деңгейі (жоғары)</label><input id="tc">
+<label for="pc">Бағалау критерийі</label><input id="pc">
+<label for="pd">Дескриптор</label><input id="pd">
+<label for="pq">Цифрлық құрал</label><select id="pq"><option>GeoGebra</option><option>Desmos</option><option>Kahoot</option><option>Wordwall</option><option>Padlet</option><option>Құралсыз</option></select>
+<button class="p" id="mk">Жоспарды жинау</button>
+<ul class="chk" id="ck"></ul>
+<pre id="out" hidden></pre>
+<button class="p" id="cp" hidden>Көшіру</button>
+<p class="fb" id="cf"></p>
+</div>
+</section>
+</main>
+<footer>3 курс · Практикалық сабақ 9 · 7–9 сыныптарда алгебраны оқыту әдістемесі</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+let xp=0;const MAX=210;
+function add(n){
+  if(!n)return;xp+=n;$('pt').textContent=xp;
+  $('xb').style.width=Math.min(100,xp/MAX*100)+'%';
+  $('rk').textContent=xp>=140?'Шебер мұғалім':xp>=60?'Мұғалім':'Стажёр';
+}
+
+/* Жол картасы */
+const G={
+7:{t:['Өрнектер және теңдеулер','Сызықтық функция','Қысқаша көбейту формулалары','Көпмүшелер және жіктеу'],d:'Әріппен жұмыс істеуге өту, таңбалар, жақшаны ашу, формуланы (a+b)² = a²+b² деп шатастыру.',m:['Геометриялық модель (шаршы ауданы)','Тепе-теңдік таразысы','«Қателікті тап»']},
+8:{t:['Квадрат түбірлер','Рационал өрнектер','Квадрат теңдеулер','Виет теоремасы'],d:'Дискриминант формуласын мағынасыз жаттау, түбірдің біреуін жіберіп алу, бөлшектегі нөлге бөлу шарты.',m:['Парабола графигімен байланыстыру (GeoGebra)','Деңгейлік тапсырмалар','Топтық жұмыс']},
+9:{t:['Теңсіздіктер','Квадраттық функция','Прогрессиялар','Теңдеулер жүйесі'],d:'Теңсіздік таңбасын теріс санға бөлгенде өзгерту, арифметикалық және геометриялық прогрессия формулаларын шатастыру.',m:['Өмірлік есептер (салым, өсу)','Жобалық тапсырма','Кері сынып (flipped)']}
+};
+function grade(g){
+  [...$('gt').children].forEach(b=>b.classList.toggle('on',b.textContent.startsWith(g)));
+  const x=G[g];
+  $('gd').innerHTML='<h3>'+g+' сынып</h3><p><b>Тақырыптар:</b></p><div class="tags">'+x.t.map(s=>'<span>'+s+'</span>').join('')+'</div><p><b>Типтік қиындық:</b> '+x.d+'</p><p><b>Тиімді әдістер:</b></p><div class="tags">'+x.m.map(s=>'<span>'+s+'</span>').join('')+'</div>';
+}
+grade(7);
+
+/* Жалпы викторина */
+const AW={};
+function quiz(id,items,final){
+  const box=$(id);let i=0,sum=0;
+  function show(){
+    if(i>=items.length){box.innerHTML='<p class="q">Аяқталды: <b>'+sum+'</b> ұпай.</p>'+(final||'')+'<button class="p" id="'+id+'r">Қайта өту</button>';
+      $(id+'r').onclick=()=>{i=0;sum=0;show()};return}
+    const it=items[i],mx=Math.max(...it.p);
+    box.innerHTML='<p>'+(i+1)+' / '+items.length+'</p><p class="q">'+it.q+'</p><div class="opts"></div><p class="fb"></p>';
+    const op=box.querySelector('.opts'),fb=box.querySelector('.fb');
+    it.o.forEach((t,k)=>{
+      const b=document.createElement('button');b.textContent=t;
+      b.onclick=()=>{
+        [...op.children].forEach((x,j)=>{x.disabled=true;if(it.p[j]===mx)x.classList.add('ok')});
+        const good=it.p[k]===mx;if(!good)b.classList.add('bad');
+        if(!AW[id+i]){AW[id+i]=1;add(it.p[k])}sum+=it.p[k];
+        fb.textContent=(good?'Дұрыс. ':'Толық емес. ')+(Array.isArray(it.w)?it.w[k]:it.w);
+        const n=document.createElement('button');n.className='p';n.textContent=i===items.length-1?'Нәтиже':'Келесі';
+        n.onclick=()=>{i++;show()};box.appendChild(n);
+      };
+      op.appendChild(b);
+    });
+  }
+  show();
+}
+const EO=['Таңба қатесі','Жақшаны ашу қатесі','Жағдайды жіберіп алу','Формуланы түсінбеу','Теңсіздік ережесін білмеу'];
+const E=[
+{q:'3(x − 2) = 9 → 3x − 2 = 9 → x = 11/3',c:1,w:'Жақша ашқанда екінші қосылғыш көбейтілмеген. Көмек: тіктөртбұрыш ауданы моделімен көбейтуді көрсету.'},
+{q:'5x − 7 = 2x + 8 → 5x + 2x = 8 − 7 → x = 1/7',c:0,w:'Мүшені екінші жаққа ауыстырғанда таңба өзгермеген. Көмек: теңдеуге таразы моделін қолдану.'},
+{q:'x² = 9 → x = 3',c:2,w:'Теріс түбір (−3) жіберіліп алынған. Көмек: графикте y = x² мен y = 9 қиылысуын көрсету.'},
+{q:'(a + b)² = a² + b²',c:3,w:'Оқушы формуланы қосындыға «үлестіріп» тұр. Көмек: a = 2, b = 3 болғанда екі жағын санмен салыстыру.'},
+{q:'−2x > 6 → x > −3',c:4,w:'Теріс санға бөлгенде теңсіздік таңбасы қарама-қарсыға өзгереді (x < −3). Көмек: сан түзуінде тексеру.'}
+].map(e=>({q:e.q,o:EO,p:EO.map((_,k)=>k===e.c?10:0),w:e.w}));
+quiz('q1',E);
+
+/* Кейстер */
+const CS=[
+{q:'Оқушы D = b² − 4ac формуласын жаттап алған, бірақ оның мағынасын білмейді. Не істейсіз?',o:['Формуланы 10 рет жазғызамын','GeoGebra-да парабола көрсетіп, D түбір санын қалай анықтайтынын оқушының өзі байқауына жағдай жасаймын','Дайын шешімдерді көрсетемін'],p:[3,20,0],w:['Қайталау есте сақтауға көмектеседі, бірақ мағынаны ашпайды.','Графикпен байланыс формуланың мағынасын көрсетеді.','Дайын шешім оқушыны белсенді етпейді.']},
+{q:'Сыныпта деңгей әртүрлі: біреулер жылдам шешеді, біреулер қиналады.',o:['Барлығына бірдей тапсырма беремін','3 деңгейлі тапсырма беріп, таңдау мүмкіндігін қалдырамын','Тек үздіктермен жұмыс істеймін'],p:[3,20,0],w:['Бірдей тапсырма екі жаққа да сәйкес келмейді.','Деңгейлеп оқыту бәріне жұмыс береді.','Қалғандары назардан тыс қалады.']},
+{q:'Оқушы Photomath-тан көшірген жауапты алып келді.',o:['Қолдануға тыйым саламын','Шешімнің әр қадамын түсіндіруін және құралдан қате таба алатынын сұраймын','Елемеймін'],p:[4,20,0],w:['Тыйым оқушының дағдысын дамытпайды.','Құрал тексеру үшін қолданылады, ойлауды алмастырмайды.','Тәуелділік күшейеді.']}
+];
+quiz('q2',CS);
+
+/* Кезеңдерді ретке келтіру */
+const ST=['Мотивация: проблемалық жағдай','Жаңа білімді ашу (оқушылар зерттейді)','Бірлесіп жаттығу','Өздік жұмыс (деңгейлік)','Рефлексия'];
+let ord=[3,0,4,2,1],ordDone=false;
+function drawOrd(){
+  $('ol').innerHTML='';
+  ord.forEach((v,i)=>{
+    const d=document.createElement('div');d.className='ord';
+    d.innerHTML='<span>'+ST[v]+'</span><button aria-label="Жоғары">↑</button><button aria-label="Төмен">↓</button>';
+    const [u,w]=d.querySelectorAll('button');
+    u.onclick=()=>{if(i>0){[ord[i-1],ord[i]]=[ord[i],ord[i-1]];drawOrd()}};
+    w.onclick=()=>{if(i<ord.length-1){[ord[i+1],ord[i]]=[ord[i],ord[i+1]];drawOrd()}};
+    $('ol').appendChild(d);
+  });
+}
+drawOrd();
+$('oc').onclick=()=>{
+  const good=ord.every((v,i)=>v===i);
+  if(good){$('of').textContent=ordDone?'Дұрыс!':'Дұрыс! +30 ұпай';if(!ordDone)add(30);ordDone=true;$('ol').classList.add('pop')}
+  else{const n=ord.filter((v,i)=>v===i).length;$('of').textContent='Дұрыс орнында: '+n+' / 5. Логика: қызығушылық, ашу, жаттығу, өздік жұмыс, рефлексия.'}
+};
+
+/* Мақсат */
+quiz('q3',[
+{q:'Қай мақсат жақсы жазылған?',o:['Оқушылар квадрат теңдеуді үйренеді','Сабақ соңында оқушы D формуласымен 3 квадрат теңдеудің түбірін 10 минутта дұрыс табады'],p:[0,10],w:['Өлшеу мүмкін емес.','Өлшенетін нәтиже, шарт және уақыт бар.']},
+{q:'Қай дескриптор дұрыс?',o:['Оқушы жақсы жауап береді','Дискриминантты дұрыс есептейді'],p:[0,10],w:['Бұл бағалауға болатын әрекет емес.','Дескриптор нақты әрекетті сипаттайды.']},
+{q:'Деңгейлік тапсырманың мақсаты қандай?',o:['Әр оқушыға өз деңгейінде жұмыс беру және алға жылжыту','Күшті оқушыларды бөліп алу'],p:[10,0],w:['Тапсырма әр оқушыға қол жетімді болуы тиіс.','Мақсат сұрыптау емес, дамыту.']}
+]);
+
+/* Жоспар конструкторы */
+let planDone=false;
+const F=['pt1','pm','pv','ta','tb','tc','pc','pd'];
+$('mk').onclick=()=>{
+  const v=id=>$(id).value.trim();
+  const rules=[
+    ['Тақырып жазылған',v('pt1').length>2],
+    ['Мақсат өлшенетін (кем дегенде 25 таңба, «оқушы» сөзі)',v('pm').length>=25&&/оқушы/i.test(v('pm'))],
+    ['Мотивация жазылған',v('pv').length>=10],
+    ['Үш деңгейлі тапсырма бар',v('ta')&&v('tb')&&v('tc')],
+    ['Критерий мен дескриптор бар',v('pc')&&v('pd')]
+  ];
+  $('ck').innerHTML=rules.map(r=>'<li class="'+(r[1]?'y':'')+'">'+r[0]+'</li>').join('');
+  const all=rules.every(r=>r[1]);
+  const t='Мини-сабақ жоспары ('+$('pg').value+' сынып)\nТақырып: '+v('pt1')+'\nМақсат: '+v('pm')+'\nМотивация: '+v('pv')+'\nТапсырмалар:\n A: '+v('ta')+'\n B: '+v('tb')+'\n C: '+v('tc')+'\nКритерий: '+v('pc')+'\nДескриптор: '+v('pd')+'\nЦифрлық құрал: '+$('pq').value;
+  $('out').textContent=t;$('out').hidden=false;$('cp').hidden=false;
+  if(all&&!planDone){planDone=true;add(40);$('cf').textContent='Барлық шарт орындалды! +40 ұпай'}
+  else if(!all)$('cf').textContent='Қызыл белгілерді толықтырсаңыз, ұпай аласыз.';
+};
+$('cp').onclick=async()=>{
+  try{await navigator.clipboard.writeText($('out').textContent);$('cf').textContent='Көшірілді.'}
+  catch(e){const r=document.createRange();r.selectNodeContents($('out'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('cf').textContent='Мәтін таңдалды, өзіңіз көшіріңіз.'}
+};
+</script>
+</body>
+</html>
